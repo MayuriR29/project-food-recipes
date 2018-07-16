@@ -6,13 +6,13 @@ router.use(express.json());
 router.get("/", async (req, res, next) => {
   try {
     const users = await User.find();
-    res.json(users);
+    res.json(users).status(200);
   } catch (err) {
     console.error("Error occured in getusers", err);
     next(err);
   }
 });
-console.log('in user router')
+//Post user
 router.post("/", async (req, res, next) => {
   try {
     const newUser = new User({
@@ -27,6 +27,7 @@ router.post("/", async (req, res, next) => {
     next(err);
   }
 });
+
 module.exports = app => {
   app.use("/users", router);
 };

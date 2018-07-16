@@ -15,3 +15,4 @@ Install dependencies:
 - npm install --save-dev jest (to add in devDependencies)
 - npm install -D nodemon
 - npm install body-parser
+- npm install mongodb-memory-server --save-dev
