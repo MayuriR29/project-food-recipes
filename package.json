@@ -4,8 +4,16 @@
   "description": "project on recipes api",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
+    "dev": "npx nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "jest": "^23.4.1",
+    "mongoose": "^5.2.3",
+    "supertest": "^3.1.0"
+  }
 }
