@@ -10,13 +10,14 @@ db.on("error", () => {
   console.error("An error has occured====>");
 });
 const users = require("./routes/users");
+const recipes = require("./routes/recipes");
 const app = express();
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get("/", (req, res, next) => {
+app.get("/", (req, res) => {
   res.json("Hello From Recipe API ");
 });
 users(app);
-
+recipes(app);
 module.exports = app;

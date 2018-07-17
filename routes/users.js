@@ -8,7 +8,16 @@ router.get("/", async (req, res, next) => {
     const users = await User.find();
     res.json(users).status(200);
   } catch (err) {
-    console.error("Error occured in getusers", err);
+    console.error("Error occured in get users", err);
+    next(err);
+  }
+});
+router.get("/:id", async (req, res, next) => {
+  try {
+    const findUserById = await User.findById(req.params.id);
+    res.json(findUserById).status(200);
+  } catch (err) {
+    console.error("Error occured in GET user by id", err);
     next(err);
   }
 });
@@ -23,7 +32,17 @@ router.post("/", async (req, res, next) => {
     await newUser.save();
     res.status(201).json({ message: "User created successfully" });
   } catch (err) {
-    console.err("Error occured in POST user", err);
+    console.error("Error occured in POST user", err);
+    next(err);
+  }
+});
+//PUT user
+router.put("/:id", async (req, res, next) => {
+  try {
+    await User.findByIdAndUpdate(req.params.id, req.body);
+    res.status(204).json();
+  } catch (err) {
+    console.error("Error occured in PUT user", err);
     next(err);
   }
 });

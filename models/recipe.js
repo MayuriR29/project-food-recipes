@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const User = require("../models/user");
 const recipeSchema = mongoose.Schema({
   title: String,
-  recipeId: {
+  contributorId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
@@ -15,4 +15,5 @@ const recipeSchema = mongoose.Schema({
   comments: [{ body: String, date: Date }],
   ingredients: [{ quantity: String, name: String }]
 });
-module.exports = recipeSchema;
+const Recipe = mongoose.model("Recipe", recipeSchema);
+module.exports = Recipe;

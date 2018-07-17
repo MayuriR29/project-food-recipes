@@ -28,7 +28,7 @@ beforeAll(async () => {
 
   const uri = await mongod.getConnectionString();
   await mongoose.connect(uri);
-  await addTempUsers();
+  // await addTempUsers();
 });
 beforeEach(async () => {
   mongoose.connection.db.dropDatabase();
@@ -43,6 +43,11 @@ test("/GET users", async () => {
   expect(response.status).toBe(200);
   expect(response.body.length).toEqual(2);
 });
+test("GET users by ID", async () => {
+  const response = await request(app).get("/users/" + user2Saved._id);
+  expect(response.status).toBe(200);
+  expect(response.body.username).toEqual(user2Saved.username);
+});
 test("/POST user", async () => {
   const newUser = {
     username: "user2",
@@ -55,4 +60,13 @@ test("/POST user", async () => {
   expect(response.status).toBe(201);
   const users = await User.find();
   expect(users.length).toBe(3);
+});
+test("/PUT user", async () => {
+  const updateUser = { bio: "I am expert chef of all cuisines" };
+  const response = await request(app)
+    .put("/users/" + user1Saved._id)
+    .send(updateUser);
+  const updatedUser = await User.findById(user1Saved._id);
+  expect(response.status).toBe(204);
+  expect(updatedUser.bio).toEqual(updateUser.bio);
 });
