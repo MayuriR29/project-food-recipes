@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 const User = require("../models/user");
 const recipeSchema = mongoose.Schema({
-  title: String,
+  title: {
+    type: String,
+    required: true
+  },
   contributorId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

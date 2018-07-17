@@ -28,7 +28,6 @@ beforeAll(async () => {
 
   const uri = await mongod.getConnectionString();
   await mongoose.connect(uri);
-  // await addTempUsers();
 });
 beforeEach(async () => {
   mongoose.connection.db.dropDatabase();
@@ -40,8 +39,9 @@ afterAll(() => {
 });
 test("1 test /GET users", async () => {
   const response = await request(app).get("/users");
+  const users= await User.find();
   expect(response.status).toBe(200);
-  expect(response.body.length).toEqual(2);
+  expect(response.body.length).toEqual(users.length);
 });
 test("2 test /GET users by ID", async () => {
   const response = await request(app).get("/users/" + user2Saved._id);
@@ -75,4 +75,4 @@ test("5 test /DELETE user",async ()=>{
   const deletedUser=await User.findById(user2Saved._id);//if deleted returns null
   expect(response.status).toBe(204);
   expect(deletedUser).toBeNull;
-})
+});

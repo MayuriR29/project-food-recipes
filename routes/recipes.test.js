@@ -42,7 +42,6 @@ beforeAll(async () => {
 
   const uri = await mongod.getConnectionString();
   await mongoose.connect(uri);
-  // await addTempRecipes();
 });
 beforeEach(async () => {
   mongoose.connection.db.dropDatabase();
@@ -54,6 +53,7 @@ afterAll(() => {
 });
 test("1 test /GET recipes", async () => {
   const response = await request(app).get("/recipes");
+  const recipes=await Recipe.find()
   expect(response.status).toBe(200);
   expect(response.body.length).toEqual(2);
 });
