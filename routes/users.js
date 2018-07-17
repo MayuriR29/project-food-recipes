@@ -46,7 +46,15 @@ router.put("/:id", async (req, res, next) => {
     next(err);
   }
 });
-
+//DELETE user
+router.delete("/:id", async (req, res, next) => {
+  try {
+    await User.findByIdAndDelete(req.params.id, req.body);
+    res.status(204).json();
+  } catch (err) {
+    console.error("Error occured in DELETE user", err);
+  }
+});
 module.exports = app => {
   app.use("/users", router);
 };

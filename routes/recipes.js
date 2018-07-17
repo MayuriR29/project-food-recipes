@@ -39,6 +39,16 @@ router.put("/:id", async (req, res, next) => {
     next(err);
   }
 });
+//DELETE recipes
+router.delete("/:recipeId", async (req, res, next) => {
+  try {
+    await Recipe.findByIdAndDelete(req.params.recipeId, res.body);
+    res.status(204).json();
+  } catch (err) {
+    console.err("Error in DELETE recipes", err);
+  }
+});
+
 module.exports = app => {
   app.use("/recipes", router);
 };

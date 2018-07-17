@@ -9,7 +9,7 @@ const mongod = new MongoMemoryServer();
 const mongoose = require("mongoose");
 
 const app = express();
-let user1Saved, user2Saved;
+let user1Saved, user2Saved, recipe1Saved, recipe2Saved;
 recipesRouter(app);
 async function addTempRecipes() {
   const user1 = new User({
@@ -34,8 +34,8 @@ async function addTempRecipes() {
     contributorId: user2Saved._id,
     comments: [{ body: "must try", date: "12-06-18" }]
   });
-  await recipe1.save();
-  await recipe2.save();
+  recipe1Saved = await recipe1.save();
+  recipe2Saved = await recipe2.save();
 }
 beforeAll(async () => {
   jest.setTimeout(120000);
@@ -52,12 +52,12 @@ afterAll(() => {
   mongoose.disconnect();
   mongod.stop();
 });
-test("test GET recipes", async () => {
+test("1 test /GET recipes", async () => {
   const response = await request(app).get("/recipes");
   expect(response.status).toBe(200);
   expect(response.body.length).toEqual(2);
 });
-test("test POST recipes", async () => {
+test("2 test /POST recipes", async () => {
   const newRecipe = {
     title: "Veg Pizza",
     contributorId: user2Saved._id,
@@ -69,4 +69,19 @@ test("test POST recipes", async () => {
   expect(response.status).toBe(201);
   const recipes = await Recipe.find();
   expect(recipes.length).toEqual(3);
+});
+test("3 test /PUT recipes", async () => {
+  const updateRecipe = { title: "very Veggie Pizza" };
+  const response = await request(app)
+    .put("/recipes/" + recipe2Saved._id)
+    .send(updateRecipe);
+  expect(response.status).toBe(204);
+  const updatedRecipe = await Recipe.findById(recipe2Saved._id);
+  expect(updatedRecipe.title).toBe(updateRecipe.title);
+});
+test("4 test /DELETE recipes", async () => {
+  const response = await request(app).delete("/recipes/" + recipe1Saved._id);
+  expect(response.status).toBe(204);
+  const deletedRecipe = await Recipe.findById(recipe1Saved._id);
+  expect(deletedRecipe).toBeNull;
 });

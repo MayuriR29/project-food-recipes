@@ -38,17 +38,17 @@ afterAll(() => {
   mongoose.disconnect();
   mongod.stop();
 });
-test("/GET users", async () => {
+test("1 test /GET users", async () => {
   const response = await request(app).get("/users");
   expect(response.status).toBe(200);
   expect(response.body.length).toEqual(2);
 });
-test("GET users by ID", async () => {
+test("2 test /GET users by ID", async () => {
   const response = await request(app).get("/users/" + user2Saved._id);
   expect(response.status).toBe(200);
   expect(response.body.username).toEqual(user2Saved.username);
 });
-test("/POST user", async () => {
+test("3 test /POST user", async () => {
   const newUser = {
     username: "user2",
     age: 42,
@@ -61,7 +61,7 @@ test("/POST user", async () => {
   const users = await User.find();
   expect(users.length).toBe(3);
 });
-test("/PUT user", async () => {
+test("4 test /PUT user", async () => {
   const updateUser = { bio: "I am expert chef of all cuisines" };
   const response = await request(app)
     .put("/users/" + user1Saved._id)
@@ -70,3 +70,9 @@ test("/PUT user", async () => {
   expect(response.status).toBe(204);
   expect(updatedUser.bio).toEqual(updateUser.bio);
 });
+test("5 test /DELETE user",async ()=>{
+  const response=await request(app).delete("/users/"+user2Saved._id);
+  const deletedUser=await User.findById(user2Saved._id);//if deleted returns null
+  expect(response.status).toBe(204);
+  expect(deletedUser).toBeNull;
+})
