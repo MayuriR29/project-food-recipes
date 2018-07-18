@@ -16,6 +16,16 @@ Install dependencies:
 - npm install -D nodemon
 - npm install body-parser
 - npm install mongodb-memory-server --save-dev
+- Create heroku application:
+  - heroku create
+- To generate heroku api key, in your shell terminal, run
+  - heroku auth:token
+- authentication
+  - npm install express-jwt
+  - updated post during authentication
+  - npm install --save mongoose-unique-validator
+  - npm install passport
+  - npm install passport-jwt
 
 ## Applicationm url
 

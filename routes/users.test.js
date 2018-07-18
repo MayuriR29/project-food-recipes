@@ -39,7 +39,7 @@ afterAll(() => {
 });
 test("1 test /GET users", async () => {
   const response = await request(app).get("/users");
-  const users= await User.find();
+  const users = await User.find();
   expect(response.status).toBe(200);
   expect(response.body.length).toEqual(users.length);
 });
@@ -50,16 +50,19 @@ test("2 test /GET users by ID", async () => {
 });
 test("3 test /POST user", async () => {
   const newUser = {
-    username: "user2",
+    username: "user7",
+    password: "secretPassword",
     age: 42,
     bio: "I m expert chef"
   };
   const response = await request(app)
-    .post("/users")
+    .post("/users/signup")
     .send(newUser);
+  // let userTest = response.body.user;
   expect(response.status).toBe(201);
-  const users = await User.find();
-  expect(users.length).toBe(3);
+  const userCreated = await User.find({ username: "user7" });
+  expect(userCreated.length).toBe(1);
+  expect(userCreated).toBeDefined();
 });
 test("4 test /PUT user", async () => {
   const updateUser = { bio: "I am expert chef of all cuisines" };
@@ -70,9 +73,9 @@ test("4 test /PUT user", async () => {
   expect(response.status).toBe(204);
   expect(updatedUser.bio).toEqual(updateUser.bio);
 });
-test("5 test /DELETE user",async ()=>{
-  const response=await request(app).delete("/users/"+user2Saved._id);
-  const deletedUser=await User.findById(user2Saved._id);//if deleted returns null
+test("5 test /DELETE user", async () => {
+  const response = await request(app).delete("/users/" + user2Saved._id);
+  const deletedUser = await User.findById(user2Saved._id); //if deleted returns null
   expect(response.status).toBe(204);
   expect(deletedUser).toBeNull;
 });
