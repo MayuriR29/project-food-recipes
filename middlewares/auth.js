@@ -5,9 +5,8 @@ const rejectRequestIfIdsDontMatch = async (req, res, next) => {
   const requestedRecipe = await Recipe.find({
     _id: req.params.id
   });
-  console.log(requestedRecipe[0]);
 
-  if (requestedRecipe[0].contributorId === req.user.id) {
+  if (requestedRecipe[0].contributorId == req.user.id) {
     next();
   } else {
     res.status(401).json({ message: "unauthorized" });
