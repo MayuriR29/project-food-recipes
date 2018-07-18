@@ -45,7 +45,7 @@ afterAll(() => {
   mongod.stop();
 });
 
-test("test protected routes /PUT user", async () => {
+test.skip("test protected routes /PUT user", async () => {
   const updateUser = { bio: "I am expert chef of all cuisines" };
   const response = await request(app)
     .put("/users/signin/")
