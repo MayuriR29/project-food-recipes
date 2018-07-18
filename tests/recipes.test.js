@@ -1,6 +1,6 @@
 const request = require("supertest");
 const express = require("express");
-const recipesRouter = require("./recipes");
+const recipesRouter = require("../routes/recipes");
 const Recipe = require("../models/recipe");
 const User = require("../models/user");
 
@@ -53,7 +53,7 @@ afterAll(() => {
 });
 test("1 test /GET recipes", async () => {
   const response = await request(app).get("/recipes");
-  const recipes=await Recipe.find()
+  const recipes = await Recipe.find();
   expect(response.status).toBe(200);
   expect(response.body.length).toEqual(2);
 });

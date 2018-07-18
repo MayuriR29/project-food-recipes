@@ -30,7 +30,6 @@ router.get("/:id", async (req, res, next) => {
 router.post("/signup", async (req, res, next) => {
   try {
     const { username, password, age, bio } = req.body;
-    console.log("-->", req.body);
     const newUser = new User({
       username,
       age,
@@ -47,7 +46,6 @@ router.post("/signup", async (req, res, next) => {
 // POST login
 router.post("/signin", async (req, res) => {
   const { username, password } = req.body;
-
   const user = await User.findOne({ username: username });
 
   if (!user) {
@@ -56,7 +54,6 @@ router.post("/signin", async (req, res) => {
 
   if (user.validPassword(password)) {
     const userId = { id: user.id };
-    console.log("user id", userId);
     const token = jwt.sign(userId, jwtOptions.secretOrKey);
     res.json({ message: "ok", token: token });
   } else {
