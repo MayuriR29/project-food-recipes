@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
+const validationErr = require("../middlewares/mongooseErrorMiddleware");
 router.use(express.json());
 //GET user listing
 router.get("/", async (req, res, next) => {
@@ -56,5 +57,5 @@ router.delete("/:id", async (req, res, next) => {
   }
 });
 module.exports = app => {
-  app.use("/users", router);
+  app.use("/users", router, validationErr);
 };

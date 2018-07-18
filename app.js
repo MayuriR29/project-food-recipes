@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const { handle404, handle500 } = require("./middlewares/error_handlers");
 const mongodb_uri =
   process.env.MONGODB_URI || "mongodb://localhost/mongoDB-recipes";
 
@@ -20,4 +21,8 @@ app.get("/", (req, res) => {
 });
 users(app);
 recipes(app);
+
+app.use(handle404);
+app.use(handle500);
+
 module.exports = app;
