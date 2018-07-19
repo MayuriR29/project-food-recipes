@@ -15,10 +15,17 @@ db.on("error", () => {
 db.on("open", async () => {
   try {
     await mongoose.connection.db.dropCollection("recipes");
+  } catch (err) {
+    console.error("recipes collection drop: failed");
+    console.error(err);
+  }
+
+  try {
     await mongoose.connection.db.dropCollection("users");
     saveRecipes();
   } catch (err) {
     console.error("users collection drop: failed");
+    console.error(err);
   }
 });
 
