@@ -12,9 +12,7 @@ const jwtOptions = {
 
 const jwtStrategy = new JwtStrategy(jwtOptions, async (jwt_payload, done) => {
   const user = await User.findOne({ _id: jwt_payload.id });
-  console.log('in passport',user);
   if (user) {
-    console.log('done passport');
     done(null, user);
   } else {
     done(null, false);

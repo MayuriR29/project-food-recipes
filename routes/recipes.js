@@ -3,9 +3,7 @@ const router = express.Router();
 const Recipe = require("../models/recipe");
 const { passport } = require("../config/passport");
 const validationErr = require("../middlewares/mongooseErrorMiddleware");
-const {
-  rejectRequestIfIdsDontMatch
-} = require("../middlewares/auth");
+const { rejectRequestIfIdsDontMatch } = require("../middlewares/auth");
 router.use(express.json());
 
 //GET recipe listing
@@ -39,10 +37,10 @@ router.post("/", async (req, res, next) => {
 router.put(
   "/:recipeId",
   passport.authenticate("jwt", { session: false }),
-   rejectRequestIfIdsDontMatch,
+  rejectRequestIfIdsDontMatch,
   async (req, res, next) => {
     try {
-      console.log('in put recipe');
+      console.log("in put recipe");
       await Recipe.findByIdAndUpdate(req.params.recipeId, req.body);
       res.status(204).json();
     } catch (err) {
@@ -52,15 +50,20 @@ router.put(
   }
 );
 //DELETE recipes
-router.delete("/:recipeId", async (req, res, next) => {
-  try {
-    await Recipe.findByIdAndDelete(req.params.recipeId, res.body);
-    res.status(204).json();
-  } catch (err) {
-    console.err("Error in DELETE recipes", err);
-    next(err);
+router.delete(
+  "/:recipeId",
+  passport.authenticate("jwt", { session: false }),
+  rejectRequestIfIdsDontMatch,
+  async (req, res, next) => {
+    try {
+      await Recipe.findByIdAndDelete(req.params.recipeId, res.body);
+      res.status(204).json();
+    } catch (err) {
+      console.err("Error in DELETE recipes", err);
+      next(err);
+    }
   }
-});
+);
 
 module.exports = app => {
   app.use("/recipes", router, validationErr);
