@@ -33,8 +33,6 @@ router.post("/", async (req, res, next) => {
     await newRecipe.save();
     res.status(201).json({ message: "Recipe added successfully" });
   } catch (err) {
-    console.error("Error in POST recipes", err.message);
-    console.log("in post ---->", err.name);
     next(err);
   }
 });

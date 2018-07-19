@@ -47,26 +47,24 @@ router.post("/signup", async (req, res, next) => {
 router.post("/signin", async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username: username });
-
   if (!user) {
     res.status(401).json({ message: "no such user found" });
   }
-
   if (user.validPassword(password)) {
     const userId = { id: user.id };
     const token = jwt.sign(userId, jwtOptions.secretOrKey);
-    res.json({ message: "ok", token: token });
+    res.status(200).json({ message: "ok", token: token });
   } else {
     res.status(401).json({ message: "passwords did not match" });
   }
 });
 //PUT user
 router.put(
-  "/signin/:id",
+  "/editUserDetails/",
   passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     try {
-      await User.findByIdAndUpdate(req.params.id, req.body);
+      await User.findByIdAndUpdate(req.user.id, req.body);
       res.status(204).json();
     } catch (err) {
       console.error("Error occured in PUT user", err);

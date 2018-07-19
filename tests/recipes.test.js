@@ -40,10 +40,10 @@ async function addTempRecipes() {
   });
   recipe1Saved = await recipe1.save();
   recipe2Saved = await recipe2.save();
-  console.log('PUT recipe1Saved',recipe1Saved.contributorId);
+
 }
 beforeAll(async () => {
-  jest.setTimeout(120000);
+  jest.setTimeout(15000);
 
   const uri = await mongod.getConnectionString();
   await mongoose.connect(uri);
@@ -75,7 +75,7 @@ test("2 test /POST recipes", async () => {
   const recipes = await Recipe.find();
   expect(recipes.length).toEqual(3);
 });
-test.skip("3 test /PUT recipes", async () => {
+test("3 test /PUT recipes", async () => {
   const updateRecipe = { title: "very Veggie Pizza" };
   
   const response = await request(app)

@@ -5,6 +5,7 @@ const User = require("../models/user");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const mongod = new MongoMemoryServer();
 const mongoose = require("mongoose");
+const signIn = require("./signin");
 
 const app = express();
 const testPassword = "password";
@@ -63,7 +64,7 @@ test("2 test /GET users by ID", async () => {
   expect(response.body.username).toEqual(user2Saved.username);
 });
 
-test("3 test /POST user", async () => {
+test("3 test /POST successful signup of user", async () => {
   const newUser = {
     username: "user7",
     password: "secret",
@@ -79,25 +80,36 @@ test("3 test /POST user", async () => {
   expect(userCreated).toBeDefined();
 });
 
-test("4 test for invalid password /POST user", async () => {
-  console.log("in test 4");
+test("4 /POST test for successful signin of user ", async () => {
+  const response = await request(app)
+    .post("/users/signin")
+    .send({ username: "user1", password: "password" });
+  expect(response.status).toBe(200);
+  expect(response.body.token).toBeDefined();
+});
+
+test("5 test for invalid password /POST user", async () => {
   let passwordTest = "wrongpwd";
   const response = await request(app)
     .post("/users/signin")
-    .send({ username: user1Saved.username, password: passwordTest });
+    .send({ username: "user1", password: passwordTest });
   expect(response.status).toBe(401);
   expect(response.body).toEqual({ message: "passwords did not match" });
 });
 
-// test("4 test /PUT user", async () => {
-//   const updateUser = { bio: "I am expert chef of all cuisines" };
-//   const response = await request(app)
-//     .put("/users/signin/" + user1Saved._id)
-//     .send(updateUser);
-//   const updatedUser = await User.findById(user1Saved._id);
-//   expect(response.status).toBe(204);
-//   expect(updatedUser.bio).toEqual(updateUser.bio);
-// });
+test("test protected routes /PUT user", async () => {
+  let signInResponse = await signIn(app, user1Saved.username, "password");
+  let jwtToken = signInResponse.token;
+  const updateUser = { bio: "I am expert chef of all cuisines" };
+  const response = await request(app)
+    .put("/users/editUserDetails/")
+    .set("Authorization", "Bearer " + jwtToken)
+    .send(updateUser);
+
+  const updatedUser = await User.findById(user1Saved._id);
+  expect(response.status).toBe(204);
+  expect(updatedUser.bio).toEqual(updateUser.bio);
+});
 
 // test("5 test /DELETE user", async () => {
 //   const response = await request(app).delete("/users/signin/" + user2Saved._id);
