@@ -74,11 +74,11 @@ router.put(
 );
 //DELETE user
 router.delete(
-  "/signin/:id",
+  "/deleteAccount/",
   passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     try {
-      await User.findByIdAndDelete(req.params.id, req.body);
+      await User.findByIdAndDelete(req.user.id, req.body);
       res.status(204).json();
     } catch (err) {
       console.error("Error occured in DELETE user", err);

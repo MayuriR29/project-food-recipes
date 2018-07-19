@@ -4,7 +4,6 @@ const Recipe = require("../models/recipe");
 const { passport } = require("../config/passport");
 const validationErr = require("../middlewares/mongooseErrorMiddleware");
 const {
-  authenticateUser,
   rejectRequestIfIdsDontMatch
 } = require("../middlewares/auth");
 router.use(express.json());
@@ -38,12 +37,13 @@ router.post("/", async (req, res, next) => {
 });
 //PUT recipes
 router.put(
-  "/:id",
+  "/:recipeId",
   passport.authenticate("jwt", { session: false }),
    rejectRequestIfIdsDontMatch,
   async (req, res, next) => {
     try {
-      await Recipe.findByIdAndUpdate(req.params.id, req.body);
+      console.log('in put recipe');
+      await Recipe.findByIdAndUpdate(req.params.recipeId, req.body);
       res.status(204).json();
     } catch (err) {
       console.error("Error in PUT recipes", err);

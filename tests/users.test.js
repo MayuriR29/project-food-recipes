@@ -47,10 +47,6 @@ afterAll(() => {
   mongod.stop();
 });
 
-test("dummy", () => {
-  expect(1).toBe(1);
-});
-
 test("1 test /GET users", async () => {
   const response = await request(app).get("/users");
   const users = await User.find();
@@ -80,7 +76,7 @@ test("3 test /POST successful signup of user", async () => {
   expect(userCreated).toBeDefined();
 });
 
-test("4 /POST test for successful signin of user ", async () => {
+test("4 test /POST  for successful signin of user ", async () => {
   const response = await request(app)
     .post("/users/signin")
     .send({ username: "user1", password: "password" });
@@ -97,7 +93,7 @@ test("5 test for invalid password /POST user", async () => {
   expect(response.body).toEqual({ message: "passwords did not match" });
 });
 
-test("test protected routes /PUT user", async () => {
+test("6 test protected routes /PUT user", async () => {
   let signInResponse = await signIn(app, user1Saved.username, "password");
   let jwtToken = signInResponse.token;
   const updateUser = { bio: "I am expert chef of all cuisines" };
@@ -111,9 +107,14 @@ test("test protected routes /PUT user", async () => {
   expect(updatedUser.bio).toEqual(updateUser.bio);
 });
 
-// test("5 test /DELETE user", async () => {
-//   const response = await request(app).delete("/users/signin/" + user2Saved._id);
-//   const deletedUser = await User.findById(user2Saved._id); //if deleted returns null
-//   expect(response.status).toBe(204);
-//   expect(deletedUser).toBeNull;
-// });
+test("7 test /DELETE user", async () => {
+  let signInResponse = await signIn(app, user2Saved.username, "password");
+  let jwtToken = signInResponse.token;
+
+  const response = await request(app)
+    .delete("/users/deleteAccount/")
+    .set("Authorization", "Bearer " + jwtToken);
+  const deletedUser = await User.findById(user2Saved._id); //if deleted returns null
+  expect(response.status).toBe(204);
+  expect(deletedUser).toBeNull;
+});
