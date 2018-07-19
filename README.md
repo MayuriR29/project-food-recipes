@@ -26,6 +26,7 @@ Install dependencies:
   - npm install --save mongoose-unique-validator
   - npm install passport
   - npm install passport-jwt
+  - pm install swagger-ui-express
 
 ## Applicationm url
 
