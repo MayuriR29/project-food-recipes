@@ -40,7 +40,6 @@ router.put(
   rejectRequestIfIdsDontMatch,
   async (req, res, next) => {
     try {
-      console.log("in put recipe");
       await Recipe.findByIdAndUpdate(req.params.recipeId, req.body);
       res.status(204).json();
     } catch (err) {

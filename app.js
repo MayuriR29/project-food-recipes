@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const { handle404, handle500 } = require("./middlewares/error_handlers");
-
+const { saveRecipes } = require("./seedData");
 const mongodb_uri =
   process.env.MONGODB_URI || "mongodb://localhost/mongoDB-recipes";
 
@@ -14,7 +14,22 @@ const db = mongoose.connection;
 db.on("error", () => {
   console.error("An error has occured====>");
 });
+db.on("open", async () => {
+  try {
+    await mongoose.connection.db.dropCollection("recipes");
+  } catch (err) {
+    console.error("recipes collection drop: failed");
+    console.error(err);
+  }
 
+  try {
+    await mongoose.connection.db.dropCollection("users");
+    saveRecipes();
+  } catch (err) {
+    console.error("users collection drop: failed");
+    console.error(err);
+  }
+});
 const users = require("./routes/users");
 const recipes = require("./routes/recipes");
 const app = express();
