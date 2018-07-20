@@ -31,7 +31,7 @@ async function addTempUsers() {
 }
 
 beforeAll(async () => {
-  jest.setTimeout(8000);
+  jest.setTimeout(15000);
 
   const uri = await mongod.getConnectionString();
   await mongoose.connect(uri);
