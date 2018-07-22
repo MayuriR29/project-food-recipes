@@ -1,10 +1,13 @@
 # Recipes API using Express
 
+This app will display recipes ,also the information of the user who added th recipes.Users can add comments on the recipes.
+
 ## Getting started
 
 Install dependencies:
 
-- npm init (wil get package json)
+- Git clone https://github.com/MayuriR29/project-food-recipes
+- Run npm install to install the required dependencies.
 - npm install
 - npm install express
 - git init
@@ -27,6 +30,14 @@ Install dependencies:
   - npm install passport
   - npm install passport-jwt
   - pm install swagger-ui-express
+
+## Running the App
+
+Run npm start to start the app, or npm run start:dev for automatic reload of server upon changes in the files.
+
+## Running the Tests
+
+Run npm run test for running the tests a single time, or npm run test:watch for running the tests every time a change is made.
 
 ## Applicationm url
 

@@ -17,18 +17,11 @@ db.on("error", () => {
 db.on("open", async () => {
   try {
     await mongoose.connection.db.dropCollection("recipes");
-  } catch (err) {
-    console.error("recipes collection drop: failed");
-    console.error(err);
-  }
-
+  } catch (err) {}
   try {
     await mongoose.connection.db.dropCollection("users");
     saveRecipes();
-  } catch (err) {
-    console.error("users collection drop: failed");
-    console.error(err);
-  }
+  } catch (err) {}
 });
 const users = require("./routes/users");
 const recipes = require("./routes/recipes");
