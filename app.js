@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const { handle404, handle500 } = require("./middlewares/error_handlers");
 const { saveRecipes } = require("./seedData");
+const User = require("./models/user");
+const Recipe = require("./models/recipe");
 const mongodb_uri =
   process.env.MONGODB_URI || "mongodb://localhost/mongoDB-recipes";
 
@@ -14,14 +16,17 @@ const db = mongoose.connection;
 db.on("error", () => {
   console.error("An error has occured====>");
 });
-db.on("open", async () => {
-  try {
-    await mongoose.connection.db.dropCollection("recipes");
-  } catch (err) {}
-  try {
-    await mongoose.connection.db.dropCollection("users");
+
+db.on("connected", async () => {
+  if (
+    (await User.countDocuments()) == 0 &&
+    (await Recipe.countDocuments()) == 0
+  ) {
+    console.log("database is empty, seeding data");
     saveRecipes();
-  } catch (err) {}
+  } else {
+    console.log("database not empty, not seeding data");
+  }
 });
 const users = require("./routes/users");
 const recipes = require("./routes/recipes");
