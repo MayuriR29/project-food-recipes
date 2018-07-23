@@ -1,48 +1,22 @@
 const express = require("express");
 const { passport, jwtOptions } = require("../config/passport");
 const router = express.Router();
+
+const userService = require('../middlewares/userService');
+
 const User = require("../models/user");
 const validationErr = require("../middlewares/mongooseErrorMiddleware");
 const jwt = require("jsonwebtoken");
 
 router.use(express.json());
 router.use(passport.initialize());
+
 //GET user listing
-router.get("/", async (req, res, next) => {
-  try {
-    const users = await User.find();
-    res.json(users).status(200);
-  } catch (err) {
-    console.error("Error occured in get users", err);
-    next(err);
-  }
-});
-router.get("/:id", async (req, res, next) => {
-  try {
-    const findUserById = await User.findById(req.params.id);
-    res.json(findUserById).status(200);
-  } catch (err) {
-    console.error("Error occured in GET user by id", err);
-    next(err);
-  }
-});
+router.get("/", userService.returnAllUsers);
+router.get("/:id", userService.returnUserById);
+
 //Post user ,signup
-router.post("/signup", async (req, res, next) => {
-  try {
-    const { username, password, age, bio } = req.body;
-    const newUser = new User({
-      username,
-      age,
-      bio
-    });
-    newUser.setPassword(password);
-    await newUser.save();
-    res.status(201).json({ message: "User created successfully" });
-  } catch (err) {
-    console.error("Error occured in POST user", err);
-    next(err);
-  }
-});
+router.post("/signup", userService.createUser);
 // POST login
 router.post("/signin", async (req, res) => {
   const { username, password } = req.body;
