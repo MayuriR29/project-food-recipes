@@ -46,7 +46,6 @@ async function saveUsers() {
 
 async function saveRecipes() {
   const savedUsers = await saveUsers();
-  console.log("in seed", savedUsers);
   const recipes = [
     {
       title: "Veg Biryani",
