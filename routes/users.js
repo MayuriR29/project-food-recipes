@@ -12,12 +12,6 @@ const { passport, jwtOptions } = require("../config/passport");
 router.use(express.json());
 router.use(passport.initialize());
 
-//GET user listing
-router.get("/", userService.returnAllUsers);
-router.get("/:id", userService.returnUserById);
-
-//Post user ,signup
-router.post("/signup", userService.createUser);
 router.get(
   "/",
   asyncFunctionErrorWrapper(async (req, res, next) => {
@@ -25,6 +19,7 @@ router.get(
     res.json(users).status(200);
   })
 );
+
 router.get(
   "/:id",
   asyncFunctionErrorWrapper(async (req, res, next) => {
@@ -32,7 +27,7 @@ router.get(
     res.json(findUserById).status(200);
   })
 );
-//Post user ,signup
+
 router.post(
   "/signup",
   asyncFunctionErrorWrapper(async (req, res, next) => {
@@ -47,7 +42,7 @@ router.post(
     res.status(201).json({ message: "User created successfully" });
   })
 );
-// POST login
+
 router.post(
   "/signin",
   asyncFunctionErrorWrapper(async (req, res) => {
@@ -65,7 +60,7 @@ router.post(
     }
   })
 );
-//PUT user
+
 router.put(
   "/editUserDetails/",
   passport.authenticate("jwt", { session: false }),
@@ -79,7 +74,7 @@ router.put(
     }
   }
 );
-//DELETE user
+
 router.delete(
   "/deleteAccount/",
   passport.authenticate("jwt", { session: false }),
@@ -92,6 +87,7 @@ router.delete(
     }
   })
 );
+
 module.exports = app => {
   app.use("/users", router, validationErr);
 };
