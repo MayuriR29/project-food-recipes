@@ -2,7 +2,7 @@ const express = require("express");
 const asyncFunctionErrorWrapper = require("../utils/asyncFunctionErrorWrapper");
 const router = express.Router();
 
-const userService = require('../middlewares/userService');
+const userService = require("../middlewares/userService");
 
 const User = require("../models/user");
 const validationErr = require("../middlewares/mongooseErrorMiddleware");
@@ -64,27 +64,18 @@ router.post(
 router.put(
   "/editUserDetails/",
   passport.authenticate("jwt", { session: false }),
-  async (req, res, next) => {
-    try {
-      await User.findByIdAndUpdate(req.user.id, req.body);
-      res.status(204).json();
-    } catch (err) {
-      console.error("Error occured in PUT user", err);
-      next(err);
-    }
-  }
+  asyncFunctionErrorWrapper(async (req, res, next) => {
+    await User.findByIdAndUpdate(req.user.id, req.body);
+    res.status(204).json();
+  })
 );
 
 router.delete(
   "/deleteAccount/",
   passport.authenticate("jwt", { session: false }),
   asyncFunctionErrorWrapper(async (req, res, next) => {
-    try {
-      await User.findByIdAndDelete(req.user.id, req.body);
-      res.status(204).json();
-    } catch (err) {
-      console.error("Error occured in DELETE user", err);
-    }
+    await User.findByIdAndDelete(req.user.id, req.body);
+    res.status(204).json();
   })
 );
 
