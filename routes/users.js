@@ -15,7 +15,7 @@ router.use(passport.initialize());
 router.get(
   "/",
   asyncFunctionErrorWrapper(async (req, res, next) => {
-    const users = await User.find();
+    const users = await User.find({}, { username: 1, age: 1, bio: 1 });
     res.json(users).status(200);
   })
 );
