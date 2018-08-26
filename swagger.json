@@ -66,41 +66,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "user": {
-                      "type": "array",
-                      "items": {
-                        "type": "object"
-                      }
-                    },
-                    "_id": {
-                      "type": "string"
-                    },
-                    "username": {
-                      "type": "string"
-                    },
-                    "salt": {
-                      "type": "string"
-                    },
-                    "hash": {
-                      "type": "string"
-                    },
-                    "createdAt": {
-                      "type": "string"
-                    },
-                    "updatedAt": {
-                      "type": "string"
-                    }
-                  },
+                  "type": "string",
                   "example": {
-                    "user": {
-                      "_id": "5b5151f2c1f68d1252bd2ee5",
-                      "username": "gordonramsay",
-                      "createdAt": "2018-07-20T03:07:31.056Z",
-                      "updatedAt": "2018-07-20T03:07:31.056Z",
-                      "__v": 0
-                    }
+                    "message": "User created successfully"
                   }
                 }
               }
@@ -395,7 +363,7 @@
                   "contributorId": "5b5151f2c1f68d1252bd2ee3",
                   "comments":[{"body":"very good recipe","date":"12-08-18"},{"body":"add more recipes","date":"12-09-18"}],
                   "ingredients":[{"quantity":"1 cup","name":"fruits"},
-								{"quantity":"1 cup","name":"milk"}]
+                {"quantity":"1 cup","name":"milk"}]
                 }
               }
             }
@@ -407,40 +375,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "recipe": {
-                      "type": "array",
-                      "items": {
-                        "type": "object"
-                      }
-                    },
-                    "_id": {
-                      "type": "string"
-                    },
-                    "username": {
-                      "type": "string"
-                    },
-                    "salt": {
-                      "type": "string"
-                    },
-                    "hash": {
-                      "type": "string"
-                    },
-                    "createdAt": {
-                      "type": "string"
-                    },
-                    "updatedAt": {
-                      "type": "string"
-                    }
-                  },
+                  "type": "string",
                   "example": {
                     "user": {
-                      "_id": "5b5151f2c1f68d1252bd2ee5",
-                      "username": "gordonramsay",
-                      "createdAt": "2018-07-20T03:07:31.056Z",
-                      "updatedAt": "2018-07-20T03:07:31.056Z",
-                      "__v": 0
+                      "message": "Recipe added successfully"
                     }
                   }
                 }
