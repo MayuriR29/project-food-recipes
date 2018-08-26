@@ -329,7 +329,7 @@
         }
       },
       "post": {
-         "summary": "Get all recipes",
+         "summary": "Add a new recipes",
         "tags": ["Recipes"],
          "requestBody": {
           "description": "Created User Object",
@@ -411,6 +411,30 @@
             }
           }
         }
+      }
+    },
+    "/recipes/{recipeId}":{
+      "put": {
+        "summary": "Update a recipe  for a signed-in user",
+        "tags": [
+          "Recipes"
+        ],
+        "parameters": [
+          {
+            "name": "recipeId",
+            "in": "path",
+            "required": true,
+            "description": "id of the user's recipe to be updated",
+            "schema": {
+              "type": "string"
+            }
+          }
+          ],
+          "responses": {
+            "204": {
+              "description": "new ticker under the user's watchlist"
+            }
+          }
       }
     }
   }
