@@ -9,6 +9,29 @@
       "url": "https://morning-gorge-75139.herokuapp.com/"
     }
   ],
+  "components": {
+     "schemas": {
+       "user": {
+          "type": "object",
+          "properties": {
+            "_id": { "type": "string" },
+            "username": { "type": "string" },
+             "age": { "type": "number" },
+             "bio": { "type": "string" }
+          }
+       },
+       "recipes": {
+          "type": "object",
+          "properties": {
+            "_id": { "type": "string" },
+            "title": { "type": "string" },
+            "contributorId": {
+            "$ref": "#/components/schemas/user"
+          }
+          }
+       }
+     }
+  },
   "paths": {
     "/users/signup": {
       "post": {
@@ -255,6 +278,81 @@
                       "age": 51,
                       "bio": "Gordon James Ramsay Jr. is a British chef, restaurateur, and television personality. Born in Scotland, Ramsay grew up in Stratford-upon-Avon. His restaurants have been awarded 16 Michelin stars in total. His signature restaurant, Restaurant Gordon Ramsay in Chelsea, London, has held three Michelin stars since 2001 "
                     }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+      "/recipes": {
+      "get": {
+        "summary": "Get all recipes",
+        "tags": ["Recipes"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "contributorId": {
+                        "type": "object",
+                        "properties": {
+                            "_id": { "type": "string" },
+                            "username": { "type": "string" },
+                            "age": { "type": "number" },
+                            "bio": { "type": "string" }
+                            }
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                    		"_id": "5b5151f3c1f68d1252bd2eeb",
+                    		"title": "Palak Paneer",
+                    		"contributorId": {
+                    			"_id": "5b5151f2c1f68d1252bd2ee3",
+                    			"username": "vikaskhanna",
+                    			"age": 46,
+                    			"bio": "Vikas Khanna is an Indian American chef, restaurateur, and cookbook writer, filmmaker, humanitarian and the judge of MasterChef India Season 2, 3, 4, 5 and Masterchef Junior. He is based in New York "
+                    		},
+                    		"comments": [
+                    			{
+                    				"_id": "5b5151f3c1f68d1252bd2eed",
+                    				"body": "very healthy recipe",
+                    				"date": "2018-12-07T16:00:00.000Z"
+                    			},
+                    			{
+                    				"_id": "5b5151f3c1f68d1252bd2eec",
+                    				"body": "add more recipes",
+                    				"date": "2018-12-08T16:00:00.000Z"
+                    			}
+                    		],
+                    		"ingredients": [
+                    			{
+                    				"_id": "5b5151f3c1f68d1252bd2eef",
+                    				"quantity": "1 cup",
+                    				"name": "spinach"
+                    			},
+                    			{
+                    				"_id": "5b5151f3c1f68d1252bd2eee",
+                    				"quantity": "2 cups",
+                    				"name": "paneer"
+                    			}
+                        		],
+                        		"__v": 0
+                        }
                   ]
                 }
               }
