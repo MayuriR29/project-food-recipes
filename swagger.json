@@ -319,41 +319,155 @@
                   },
                   "example": [
                     {
-                    		"_id": "5b5151f3c1f68d1252bd2eeb",
-                    		"title": "Palak Paneer",
-                    		"contributorId": {
-                    			"_id": "5b5151f2c1f68d1252bd2ee3",
-                    			"username": "vikaskhanna",
-                    			"age": 46,
-                    			"bio": "Vikas Khanna is an Indian American chef, restaurateur, and cookbook writer, filmmaker, humanitarian and the judge of MasterChef India Season 2, 3, 4, 5 and Masterchef Junior. He is based in New York "
-                    		},
-                    		"comments": [
-                    			{
-                    				"_id": "5b5151f3c1f68d1252bd2eed",
-                    				"body": "very healthy recipe",
-                    				"date": "2018-12-07T16:00:00.000Z"
-                    			},
-                    			{
-                    				"_id": "5b5151f3c1f68d1252bd2eec",
-                    				"body": "add more recipes",
-                    				"date": "2018-12-08T16:00:00.000Z"
-                    			}
-                    		],
-                    		"ingredients": [
-                    			{
-                    				"_id": "5b5151f3c1f68d1252bd2eef",
-                    				"quantity": "1 cup",
-                    				"name": "spinach"
-                    			},
-                    			{
-                    				"_id": "5b5151f3c1f68d1252bd2eee",
-                    				"quantity": "2 cups",
-                    				"name": "paneer"
-                    			}
-                        		],
-                        		"__v": 0
+                        "_id": "5b5151f3c1f68d1252bd2eeb",
+                        "title": "Palak Paneer",
+                        "contributorId": {
+                          "_id": "5b5151f2c1f68d1252bd2ee3",
+                          "username": "vikaskhanna",
+                          "age": 46,
+                          "bio": "Vikas Khanna is an Indian American chef, restaurateur, and cookbook writer, filmmaker, humanitarian and the judge of MasterChef India Season 2, 3, 4, 5 and Masterchef Junior. He is based in New York "
+                        },
+                        "comments": [
+                          {
+                            "_id": "5b5151f3c1f68d1252bd2eed",
+                            "body": "very healthy recipe",
+                            "date": "2018-12-07T16:00:00.000Z"
+                          },
+                          {
+                            "_id": "5b5151f3c1f68d1252bd2eec",
+                            "body": "add more recipes",
+                            "date": "2018-12-08T16:00:00.000Z"
+                          }
+                        ],
+                        "ingredients": [
+                          {
+                            "_id": "5b5151f3c1f68d1252bd2eef",
+                            "quantity": "1 cup",
+                            "name": "spinach"
+                          },
+                          {
+                            "_id": "5b5151f3c1f68d1252bd2eee",
+                            "quantity": "2 cups",
+                            "name": "paneer"
+                          }
+                            ],
+                            "__v": 0
                         }
                   ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+         "summary": "Get all recipes",
+        "tags": ["Recipes"],
+         "requestBody": {
+          "description": "Created User Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "contributorId": {
+                    "type": "string"
+                  },
+                  "comments": {
+                    "type": "array",
+                    "items":{
+                      "type":"object"
+                    }
+                  },
+                  "ingredients": {
+                    "type": "array",
+                    "items":{
+                      "type":"object"
+                    }
+                  }
+                },
+                "example": {
+                  "title": "fruit cocktail custard",
+                  "contributorId": "5b5151f2c1f68d1252bd2ee3",
+                  "comments":[{"body":"very good recipe","date":"12-08-18"},{"body":"add more recipes","date":"12-09-18"}],
+                  "ingredients":[{"quantity":"1 cup","name":"fruits"},
+								{"quantity":"1 cup","name":"milk"}]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "recipe": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "_id": {
+                      "type": "string"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "salt": {
+                      "type": "string"
+                    },
+                    "hash": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "user": {
+                      "_id": "5b5151f2c1f68d1252bd2ee5",
+                      "username": "gordonramsay",
+                      "createdAt": "2018-07-20T03:07:31.056Z",
+                      "updatedAt": "2018-07-20T03:07:31.056Z",
+                      "__v": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "errors": {
+                      "message": "Bad Request"
+                    }
+                  }
                 }
               }
             }
