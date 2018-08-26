@@ -1,4 +1,5 @@
 const express = require("express");
+const logger = require("morgan");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const { handle404, handle500 } = require("./middlewares/error_handlers");
@@ -30,7 +31,11 @@ db.on("connected", async () => {
 });
 const users = require("./routes/users");
 const recipes = require("./routes/recipes");
+
+
 const app = express();
+
+app.use(logger("dev"));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
