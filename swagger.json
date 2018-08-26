@@ -254,6 +254,32 @@
         }
       }
     },
+    "/users/editUserDetails":{
+      "put":{
+        "summary": "Update user details for a signed-in user",
+        "tags": [
+          "Users"
+        ], 
+        "responses": {
+            "204": {
+              "description": "No content"
+            }
+          }
+      }
+    },
+    "/users/deleteAccount":{
+      "delete": {
+        "summary": "Delete a recipe  for a signed-in user",
+        "tags": [
+          "Users"
+        ],
+          "responses": {
+            "204": {
+              "description": "No Content"
+            }
+          }
+      }
+    },
       "/recipes": {
       "get": {
         "summary": "Get all recipes",
@@ -432,7 +458,29 @@
           ],
           "responses": {
             "204": {
-              "description": "new ticker under the user's watchlist"
+              "description": "No Content"
+            }
+          }
+      },
+      "delete": {
+        "summary": "Delete a recipe  for a signed-in user",
+        "tags": [
+          "Recipes"
+        ],
+        "parameters": [
+          {
+            "name": "recipeId",
+            "in": "path",
+            "required": true,
+            "description": "id of the user's recipe to be updated",
+            "schema": {
+              "type": "string"
+            }
+          }
+          ],
+          "responses": {
+            "204": {
+              "description": "No Content"
             }
           }
       }
