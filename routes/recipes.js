@@ -14,7 +14,7 @@ router.use(express.json());
 router.get(
   "/",
   asyncFunctionErrorWrapper(async (req, res, next) => {
-    const recipes = await Recipe.find().populate("contributorId");
+    const recipes = await Recipe.find().populate('contributorId','username age bio');
     res.json(recipes).status(200);
   })
 );
