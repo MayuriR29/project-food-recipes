@@ -38,13 +38,8 @@ router.put(
   passport.authenticate("jwt", { session: false }),
   rejectRequestIfIdsDontMatch,
   asyncFunctionErrorWrapper(async (req, res, next) => {
-    try {
       await Recipe.findByIdAndUpdate(req.params.recipeId, req.body);
       res.status(204).json();
-    } catch (err) {
-      console.error("Error in PUT recipes", err);
-      next(err);
-    }
   })
 );
 //DELETE recipes
@@ -53,13 +48,8 @@ router.delete(
   passport.authenticate("jwt", { session: false }),
   rejectRequestIfIdsDontMatch,
   asyncFunctionErrorWrapper(async (req, res, next) => {
-    try {
       await Recipe.findByIdAndDelete(req.params.recipeId, res.body);
       res.status(204).json();
-    } catch (err) {
-      console.err("Error in DELETE recipes", err);
-      next(err);
-    }
   })
 );
 
